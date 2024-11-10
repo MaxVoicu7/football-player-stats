@@ -2,16 +2,16 @@ from flask import Flask
 from flask_cors import CORS
 from routes import register_routes
 
-def create_app():
-  app = Flask(__name__)
+app = Flask(__name__)
+CORS(app, resources={
+    r"/api/*": {
+        "origins": ["http://localhost:3000"],  # Your React app's URL
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
 
-  CORS(app, resources={r"/*": {"origins": "*"}})
-    
-  register_routes(app)
-    
-  return app
+register_routes(app)
 
-app = create_app()
-
-if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=8000, debug=True)
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8000, debug=True)

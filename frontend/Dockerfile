@@ -1,20 +1,20 @@
-# Build stage
-FROM node:20-alpine as build
+# Use Node.js as base image
+FROM node:16
 
+# Set working directory
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+# Copy package files
+COPY package*.json ./
 
-RUN npm ci
+# Install dependencies
+RUN npm install
 
+# Copy project files
 COPY . .
 
-RUN npm run build
+# Expose port 3000
+EXPOSE 3000
 
-FROM nginx:alpine
-
-COPY --from=build /app/dist /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"] 
+# Start the app
+CMD ["npm", "run", "dev"] 

@@ -1,0 +1,32 @@
+.loader-wrapper {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0a192f;
+  border-radius: 12px;
+  border: 1px solid rgba(88, 166, 255, 0.1);
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #0d1930; /* Dark background color */
+  border-top: 4px solid #58a6ff; /* Accent color for the spinner */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  --accent-green: #2dd4bf;
+}

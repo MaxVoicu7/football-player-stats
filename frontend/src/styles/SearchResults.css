@@ -1,0 +1,42 @@
+.results-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 2rem;
+  margin: 2rem auto 0;
+}
+
+.results-box {
+  width: 100%;
+  background-color: #0a192f;
+  border-radius: 12px;
+  border: 1px solid rgba(88, 166, 255, 0.1);
+  padding: 2rem;
+}
+
+.stats-content {
+  width: 100%;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-container {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-message {
+  color: #f43f5e;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.placeholder-text {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  text-align: center;
+}
