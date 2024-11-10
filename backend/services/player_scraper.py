@@ -4,7 +4,12 @@ from urllib.parse import quote
 import re
 from datetime import datetime
 
+from services.player_analyzer import PlayerAnalyzer
+
 class PlayerScraper:
+    def __init__(self):
+        self.analyzer = PlayerAnalyzer()
+
     def extract_age(self, birth_date_text):
         try:
             if not birth_date_text:
@@ -170,6 +175,11 @@ class PlayerScraper:
                 print("No scouting report div found")
             
             player_info['scouting_report'] = scouting_report
+
+            # Generate player analysis
+            analysis = self.analyzer.analyze_player(player_info)
+            if 'error' not in analysis:
+                player_info.update(analysis)
 
             return {
                 'success': True,
