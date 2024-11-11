@@ -1,0 +1,350 @@
+{
+  "data": {
+    "current_season_stats": {
+      "MLS": {
+        "assists": "11",
+        "expected_assists": "4.0",
+        "expected_goals": "11.8",
+        "goal_creating_actions": "26",
+        "goals": "20",
+        "matches": "19",
+        "minutes": "1489",
+        "non_penalty_xg": "11.0",
+        "shot_creating_actions": "104"
+      }
+    },
+    "general_info": {
+      "age": 37,
+      "club": "Inter Miami",
+      "name": "Lionel Messi",
+      "national_team": "Argentina",
+      "photo_url": "https://fbref.com/req/202302030/images/headshots/d70ce98e_2022.jpg",
+      "position": "FW-MF (AM-WM, right)"
+    },
+    "player_overview": {
+      "development_analysis": {
+        "development_timeframe": "Maintenance phase",
+        "priority_areas": {
+          "critical": [
+            {
+              "category": "defensive",
+              "percentile": 9,
+              "stat": "Aerials Won",
+              "value": "0.12",
+              "weighted_score": 1.3499999999999999
+            },
+            {
+              "category": "defensive",
+              "percentile": 4,
+              "stat": "Interceptions",
+              "value": "0.12",
+              "weighted_score": 0.6
+            },
+            {
+              "category": "defensive",
+              "percentile": 1,
+              "stat": "Blocks",
+              "value": "0.24",
+              "weighted_score": 0.15
+            },
+            {
+              "category": "defensive",
+              "percentile": 1,
+              "stat": "Clearances",
+              "value": "0.00",
+              "weighted_score": 0.15
+            }
+          ],
+          "important": [
+            {
+              "category": "defensive",
+              "percentile": 25,
+              "stat": "Tackles",
+              "value": "0.91",
+              "weighted_score": 3.75
+            }
+          ],
+          "supplementary": []
+        },
+        "training_recommendations": [
+          {
+            "current_level": 9,
+            "focus_area": "Aerials Won",
+            "priority": "critical",
+            "target_level": 29,
+            "timeframe": "Short-term"
+          },
+          {
+            "current_level": 4,
+            "focus_area": "Interceptions",
+            "priority": "critical",
+            "target_level": 24,
+            "timeframe": "Short-term"
+          },
+          {
+            "current_level": 1,
+            "focus_area": "Blocks",
+            "priority": "critical",
+            "target_level": 21,
+            "timeframe": "Short-term"
+          },
+          {
+            "current_level": 1,
+            "focus_area": "Clearances",
+            "priority": "critical",
+            "target_level": 21,
+            "timeframe": "Short-term"
+          },
+          {
+            "current_level": 25,
+            "focus_area": "Tackles",
+            "priority": "important",
+            "target_level": 45,
+            "timeframe": "Medium-term"
+          }
+        ]
+      },
+      "overall_rating": 99,
+      "performance_profile": {
+        "areas_for_improvement": [
+          {
+            "category": "defensive",
+            "percentile": 25,
+            "stat": "Tackles",
+            "value": "0.91",
+            "weighted_score": 3.75
+          },
+          {
+            "category": "defensive",
+            "percentile": 9,
+            "stat": "Aerials Won",
+            "value": "0.12",
+            "weighted_score": 1.3499999999999999
+          },
+          {
+            "category": "defensive",
+            "percentile": 4,
+            "stat": "Interceptions",
+            "value": "0.12",
+            "weighted_score": 0.6
+          }
+        ],
+        "category_scores": {
+          "attacking": {
+            "contribution": 47.89,
+            "score": 96,
+            "weight": 0.5
+          },
+          "defensive": {
+            "contribution": 1.24,
+            "score": 8,
+            "weight": 0.15
+          },
+          "possession": {
+            "contribution": 28.81,
+            "score": 82,
+            "weight": 0.35
+          }
+        },
+        "key_strengths": [
+          {
+            "category": "attacking",
+            "percentile": 99,
+            "stat": "Non-Penalty Goals",
+            "value": "1.15",
+            "weighted_score": 49.5
+          },
+          {
+            "category": "attacking",
+            "percentile": 99,
+            "stat": "npxG: Non-Penalty xG",
+            "value": "0.66",
+            "weighted_score": 49.5
+          },
+          {
+            "category": "attacking",
+            "percentile": 99,
+            "stat": "Shots Total",
+            "value": "5.02",
+            "weighted_score": 49.5
+          }
+        ],
+        "playing_style": {
+          "position_specific_traits": {
+            "key_traits": {
+              "creativity": {
+                "level": "Elite",
+                "percentile": 92,
+                "score": 92
+              },
+              "finishing": {
+                "level": "Elite",
+                "percentile": 99,
+                "score": 99
+              },
+              "movement": {
+                "level": "Above Average",
+                "percentile": 51,
+                "score": 51
+              }
+            },
+            "position_role": "Goal Poacher"
+          },
+          "primary_style": "Attacking Threat",
+          "secondary_style": "Possession Play",
+          "style_characteristics": {
+            "attacking_threat": 92.0,
+            "defensive_contribution": 10.0,
+            "possession_play": 84.66666666666667
+          }
+        }
+      },
+      "potential": {
+        "current_rating": 99,
+        "development_timeframe": "Maintenance phase",
+        "key_development_areas": {
+          "critical": [
+            {
+              "category": "defensive",
+              "percentile": 9,
+              "stat": "Aerials Won",
+              "value": "0.12",
+              "weighted_score": 1.3499999999999999
+            },
+            {
+              "category": "defensive",
+              "percentile": 4,
+              "stat": "Interceptions",
+              "value": "0.12",
+              "weighted_score": 0.6
+            },
+            {
+              "category": "defensive",
+              "percentile": 1,
+              "stat": "Blocks",
+              "value": "0.24",
+              "weighted_score": 0.15
+            },
+            {
+              "category": "defensive",
+              "percentile": 1,
+              "stat": "Clearances",
+              "value": "0.00",
+              "weighted_score": 0.15
+            }
+          ],
+          "important": [
+            {
+              "category": "defensive",
+              "percentile": 25,
+              "stat": "Tackles",
+              "value": "0.91",
+              "weighted_score": 3.75
+            }
+          ],
+          "supplementary": []
+        },
+        "potential_rating": 99
+      },
+      "summary": "Lionel Messi is a experienced FW-MF (AM-WM, right) currently rated at 99/100. Their strongest aspect is attacking (96/100), with a playing style primarily focused on attacking threat. They also show good capabilities in possession play."
+    },
+    "scouting_report": [
+      {
+        "per_90": "1.15",
+        "percentile": 99,
+        "stat": "Non-Penalty Goals"
+      },
+      {
+        "per_90": "0.66",
+        "percentile": 99,
+        "stat": "npxG: Non-Penalty xG"
+      },
+      {
+        "per_90": "5.02",
+        "percentile": 99,
+        "stat": "Shots Total"
+      },
+      {
+        "per_90": "0.66",
+        "percentile": 99,
+        "stat": "Assists"
+      },
+      {
+        "per_90": "0.24",
+        "percentile": 79,
+        "stat": "xAG: Exp. Assisted Goals"
+      },
+      {
+        "per_90": "0.91",
+        "percentile": 99,
+        "stat": "npxG + xAG"
+      },
+      {
+        "per_90": "6.29",
+        "percentile": 98,
+        "stat": "Shot-Creating Actions"
+      },
+      {
+        "per_90": "52.83",
+        "percentile": 91,
+        "stat": "Passes Attempted"
+      },
+      {
+        "per_90": "77.1%",
+        "percentile": 71,
+        "stat": "Pass Completion %"
+      },
+      {
+        "per_90": "10.03",
+        "percentile": 99,
+        "stat": "Progressive Passes"
+      },
+      {
+        "per_90": "4.23",
+        "percentile": 84,
+        "stat": "Progressive Carries"
+      },
+      {
+        "per_90": "3.26",
+        "percentile": 96,
+        "stat": "Successful Take-Ons"
+      },
+      {
+        "per_90": "5.56",
+        "percentile": 91,
+        "stat": "Touches (Att Pen)"
+      },
+      {
+        "per_90": "7.25",
+        "percentile": 51,
+        "stat": "Progressive Passes Rec"
+      },
+      {
+        "per_90": "0.91",
+        "percentile": 25,
+        "stat": "Tackles"
+      },
+      {
+        "per_90": "0.12",
+        "percentile": 4,
+        "stat": "Interceptions"
+      },
+      {
+        "per_90": "0.24",
+        "percentile": 1,
+        "stat": "Blocks"
+      },
+      {
+        "per_90": "0.00",
+        "percentile": 1,
+        "stat": "Clearances"
+      },
+      {
+        "per_90": "0.12",
+        "percentile": 9,
+        "stat": "Aerials Won"
+      }
+    ]
+  },
+  "success": true
+}

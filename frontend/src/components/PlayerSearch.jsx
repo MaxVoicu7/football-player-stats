@@ -2,62 +2,60 @@ import { useState } from "react";
 import "../styles/PlayerSearch.css";
 import "../styles/NeonLoader.css";
 import NeonLoader from "./NeonLoader";
+import PlayerProfile from "./PlayerProfile";
 
 const PlayerSearch = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchStatus, setSearchStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [searchStatus, setSearchStatus] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [showStatsContainer, setShowStatsContainer] = useState(false);
+  const [playerData, setPlayerData] = useState(null);
+  const [showAnalysis, setShowAnalysis] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return;
+    if (!searchTerm.trim()) return;
 
     setIsLoading(true);
-    setSearchStatus(null);
-    setErrorMessage("");
-    setShowStatsContainer(true);
+    setSearchStatus("");
+    setShowAnalysis(false);
 
     try {
-      const timer = new Promise((resolve) => setTimeout(resolve, 1500));
-
-      const [response] = await Promise.all([
-        fetch(
-          `http://localhost:8000/api/player/search?name=${encodeURIComponent(
-            searchQuery.trim()
-          )}`
-        ),
-        timer,
-      ]);
-
+      const response = await fetch(
+        `http://localhost:8000/api/player/search?name=${encodeURIComponent(
+          searchTerm.trim()
+        )}`
+      );
       const data = await response.json();
 
       if (data.success) {
+        setPlayerData(data.data);
         setSearchStatus("success");
-        console.log("Player data:", data.data);
       } else {
+        setPlayerData(null);
         setSearchStatus("error");
-        setErrorMessage(data.error || "Failed to find player");
       }
     } catch (error) {
-      console.error("Detailed error:", error);
+      console.error("Error:", error);
       setSearchStatus("error");
-      setErrorMessage(`Connection error: ${error.message}`);
+      setPlayerData(null);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleClear = () => {
-    setSearchQuery("");
+    setSearchTerm("");
     setIsLoading(false);
-    setSearchStatus(null);
-    setErrorMessage("");
-    setShowStatsContainer(false);
+    setSearchStatus("");
+    setPlayerData(null);
+    setShowAnalysis(false);
   };
 
-  const showClearButton = searchQuery.trim() || showStatsContainer;
+  const handleAnalyze = () => {
+    setShowAnalysis(true);
+  };
+
+  const showClearButton = searchTerm.trim() || showAnalysis;
 
   return (
     <div className="search-section">
@@ -65,8 +63,8 @@ const PlayerSearch = () => {
         <form onSubmit={handleSearch} className="search-form">
           <input
             type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search for a player..."
             className="search-input"
             disabled={isLoading}
@@ -75,9 +73,9 @@ const PlayerSearch = () => {
             <button
               type="submit"
               className={`search-button ${
-                !searchQuery.trim() ? "disabled" : ""
+                !searchTerm.trim() ? "disabled" : ""
               }`}
-              disabled={isLoading || !searchQuery.trim()}
+              disabled={isLoading || !searchTerm.trim()}
             >
               {isLoading ? "Searching..." : "Search"}
             </button>
@@ -93,23 +91,32 @@ const PlayerSearch = () => {
         </form>
       </div>
 
-      {showStatsContainer && (
+      {playerData && (
         <div className="stats-container">
-          {isLoading ? (
-            <NeonLoader />
-          ) : searchStatus === "success" ? (
-            <div className="stats-content">
-              <p className="placeholder-text">
-                Player stats will be displayed here
-              </p>
+          <div className="stats-content">
+            <PlayerProfile
+              generalInfo={playerData.general_info}
+              currentSeasonStats={playerData.current_season_stats}
+              scoutingReport={playerData.scouting_report}
+              showAnalysis={showAnalysis}
+              playerOverview={showAnalysis ? playerData.player_overview : null}
+            />
+          </div>
+          {!showAnalysis && (
+            <div className="analyze-button-container">
+              <button className="analyze-button" onClick={handleAnalyze}>
+                Analyze Player
+              </button>
             </div>
-          ) : (
-            searchStatus === "error" && (
-              <div className="error-container">
-                <p className="error-message">{errorMessage}</p>
-              </div>
-            )
           )}
+        </div>
+      )}
+
+      {searchStatus === "error" && (
+        <div className="error-container">
+          <p className="error-message">
+            Connection error: Failed to find player
+          </p>
         </div>
       )}
     </div>
