@@ -1,5 +1,51 @@
 import { useState } from "react";
 import "../styles/PlayerProfile.css";
+import "../styles/PlayerCard.css";
+import "../styles/CurrentStats.css";
+import CurrentStats from "./CurrentStats";
+
+const PlayerCard = ({ generalInfo }) => {
+  // Only truncate if really necessary (longer names)
+  const truncateText = (text, maxLength = 25) => {
+    return text.length > maxLength
+      ? `${text.substring(0, maxLength)}...`
+      : text;
+  };
+
+  return (
+    <div className="player-card">
+      <div className="card-header">
+        <div className="teams-info">
+          <div className="team-container club">
+            <span className="team-label" title={generalInfo.club}>
+              {truncateText(generalInfo.club)}
+            </span>
+          </div>
+          <div className="team-container national">
+            <span className="team-label" title={generalInfo.national_team}>
+              {truncateText(generalInfo.national_team)}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="card-image">
+        <img src={generalInfo.photo_url} alt={generalInfo.name} />
+      </div>
+      <div className="card-info">
+        <h3 className="player-name">{generalInfo.name}</h3>
+        <div className="player-details">
+          <div className="details-container">
+            <span className="age-label">Age {generalInfo.age}</span>
+            <span className="details-divider">•</span>
+            <span className="position-label" title={generalInfo.position}>
+              {generalInfo.position.split(" ")[0]}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const PlayerProfile = ({
   generalInfo,
@@ -10,54 +56,21 @@ const PlayerProfile = ({
 }) => {
   return (
     <div className="player-profile">
-      {/* Basic Info Section - Always visible */}
-      <div className="basic-info-section">
-        <div className="player-header">
-          <img
-            src={generalInfo.photo_url}
-            alt={generalInfo.name}
-            className="player-photo"
-          />
-          <div className="player-info">
-            <h2>{generalInfo.name}</h2>
-            <p>Age: {generalInfo.age}</p>
-            <p>Club: {generalInfo.club}</p>
-            <p>Position: {generalInfo.position}</p>
-            <p>National Team: {generalInfo.national_team}</p>
-          </div>
-        </div>
-
-        <div className="current-stats">
-          <h3>Current Season Stats</h3>
-          {/* Display MLS stats */}
-          {currentSeasonStats.MLS && (
-            <div className="stats-grid">
-              {Object.entries(currentSeasonStats.MLS).map(([key, value]) => (
-                <div key={key} className="stat-item">
-                  <span className="stat-label">{key.replace(/_/g, " ")}</span>
-                  <span className="stat-value">{value}</span>
-                </div>
-              ))}
+      <PlayerCard generalInfo={generalInfo} />
+      <CurrentStats currentSeasonStats={currentSeasonStats} />
+      <div className="scouting-report">
+        <h3>Scouting Report</h3>
+        <div className="stats-grid">
+          {scoutingReport.map((stat, index) => (
+            <div key={index} className="stat-item">
+              <span className="stat-label">{stat.stat}</span>
+              <span className="stat-value">
+                {stat.per_90} (Top {stat.percentile}%)
+              </span>
             </div>
-          )}
-        </div>
-
-        <div className="scouting-report">
-          <h3>Scouting Report</h3>
-          <div className="stats-grid">
-            {scoutingReport.map((stat, index) => (
-              <div key={index} className="stat-item">
-                <span className="stat-label">{stat.stat}</span>
-                <span className="stat-value">
-                  {stat.per_90} (Top {stat.percentile}%)
-                </span>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
-
-      {/* Analysis Section - Only visible when showAnalysis is true */}
       {showAnalysis && playerOverview && (
         <div className="analysis-section">
           <h3>Expert Analysis</h3>

@@ -1,0 +1,153 @@
+.player-card {
+  width: 300px;
+  background: linear-gradient(145deg, #0d1930 0%, #1a2942 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  border: 2px solid rgba(88, 166, 255, 0.3);
+  box-shadow: 0 0 15px rgba(88, 166, 255, 0.2);
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.teams-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.team-container {
+  padding: 0.4rem 1rem;
+  border-radius: 12px;
+  width: 100%;
+}
+
+.team-container.club {
+  background: rgba(88, 166, 255, 0.2);
+  box-shadow: 0 0 10px rgba(88, 166, 255, 0.1);
+}
+
+.team-container.national {
+  background: rgba(255, 171, 64, 0.2);
+  box-shadow: 0 0 10px rgba(255, 171, 64, 0.1);
+}
+
+.team-label {
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  display: block;
+  font-size: 0.9rem;
+}
+
+.club .team-label {
+  color: #58a6ff;
+}
+
+.national .team-label {
+  color: #ffab40;
+}
+
+.divider {
+  color: rgba(88, 166, 255, 0.5);
+  flex-shrink: 0;
+  padding: 0 0.5rem;
+}
+
+.player-position {
+  font-size: 1.1rem;
+  color: #58a6ff;
+  padding: 0.3rem 1rem;
+  background: rgba(88, 166, 255, 0.1);
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.card-image {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(88, 166, 255, 0.3);
+  box-shadow: 0 0 20px rgba(88, 166, 255, 0.2);
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-info {
+  text-align: center;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.player-name {
+  font-size: 1.75rem;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
+  font-weight: 600;
+}
+
+.player-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.details-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(13, 25, 48, 0.8);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(88, 166, 255, 0.1);
+}
+
+.age-label {
+  color: #58a6ff;
+  font-weight: 500;
+  text-shadow: 0 0 8px rgba(88, 166, 255, 0.5);
+}
+
+.position-label {
+  color: #ffab40;
+  font-weight: 500;
+  text-shadow: 0 0 8px rgba(255, 171, 64, 0.5);
+}
+
+.details-divider {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.8rem;
+}
+
+.full-position-details {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(13, 25, 48, 0.6);
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  max-width: 90%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
