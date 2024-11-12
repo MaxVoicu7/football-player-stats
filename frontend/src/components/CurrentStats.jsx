@@ -3,21 +3,6 @@ const CurrentStats = ({ currentSeasonStats }) => {
 
   if (leagues.length === 0) return null;
 
-  const formatStat = (key, value) => {
-    // Format the stat key to be more readable
-    const formattedKey = key
-      .split("_")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-
-    // Format values that are decimals to 1 decimal place
-    const formattedValue = value.includes(".")
-      ? Number(value).toFixed(1)
-      : value;
-
-    return { key: formattedKey, value: formattedValue };
-  };
-
   return (
     <div className="current-stats-container">
       {leagues.map((league) => (
