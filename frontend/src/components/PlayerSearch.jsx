@@ -64,11 +64,11 @@ const PlayerSearch = () => {
     setShowAnalysis(false);
   };
 
-  const handleAnalyze = () => {
-    setShowAnalysis(true);
-  };
-
   const showClearButton = searchQuery.trim() || showStatsContainer;
+
+  const handleAnalysisToggle = (show) => {
+    setShowAnalysis(show);
+  };
 
   return (
     <div className="search-section">
@@ -115,19 +115,10 @@ const PlayerSearch = () => {
                   generalInfo={playerData.general_info}
                   currentSeasonStats={playerData.current_season_stats}
                   scoutingReport={playerData.scouting_report}
-                  showAnalysis={showAnalysis}
-                  playerOverview={
-                    showAnalysis ? playerData.player_overview : null
-                  }
+                  playerOverview={playerData.player_overview}
+                  onAnalysisToggle={handleAnalysisToggle}
                 />
               </div>
-              {!showAnalysis && (
-                <div className="analyze-button-container">
-                  <button className="analyze-button" onClick={handleAnalyze}>
-                    Analyze Player
-                  </button>
-                </div>
-              )}
             </>
           ) : (
             searchStatus === "error" && (

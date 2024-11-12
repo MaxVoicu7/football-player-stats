@@ -3,6 +3,7 @@ import "../styles/PlayerProfile.css";
 import "../styles/PlayerCard.css";
 import "../styles/CurrentStats.css";
 import CurrentStats from "./CurrentStats";
+import NeonLoader from "./NeonLoader";
 
 const PlayerCard = ({ generalInfo }) => {
   // Only truncate if really necessary (longer names)
@@ -163,19 +164,239 @@ const PlayerProfile = ({
   generalInfo,
   currentSeasonStats,
   scoutingReport,
-  showAnalysis,
   playerOverview,
+  onAnalysisToggle,
 }) => {
+  const [showAnalysis, setShowAnalysis] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  const handleAnalyzeClick = () => {
+    setIsAnalyzing(true);
+    setTimeout(() => {
+      setIsAnalyzing(false);
+      setShowAnalysis(true);
+      onAnalysisToggle(true);
+    }, 1000);
+  };
+
   return (
     <div className="player-profile">
       <PlayerCard generalInfo={generalInfo} />
       <CurrentStats currentSeasonStats={currentSeasonStats} />
       <ScoutingReport scoutingReport={scoutingReport} />
-      {showAnalysis && playerOverview && (
+
+      {!showAnalysis && !isAnalyzing && (
+        <div className="analyze-button-container">
+          <button className="analyze-button" onClick={handleAnalyzeClick}>
+            Analyze Player
+          </button>
+        </div>
+      )}
+
+      {isAnalyzing && (
+        <div className="analysis-loading">
+          <NeonLoader />
+        </div>
+      )}
+
+      {showAnalysis && (
         <div className="analysis-section">
           <h3>Expert Analysis</h3>
-          {/* Add the analysis components here */}
-          {/* This section will be implemented in the next iteration */}
+          <div className="analysis-content">
+            {/* Summary */}
+            {playerOverview?.summary && (
+              <div className="analysis-category">
+                <h4>Summary</h4>
+                <p>{playerOverview.summary}</p>
+              </div>
+            )}
+
+            {/* Performance Profile */}
+            {playerOverview?.performance_profile && (
+              <>
+                {/* Playing Style */}
+                <div className="analysis-category">
+                  <h4>Playing Style</h4>
+                  <div className="style-details">
+                    <p>
+                      Primary Style:{" "}
+                      {
+                        playerOverview.performance_profile.playing_style
+                          ?.primary_style
+                      }
+                    </p>
+                    <p>
+                      Secondary Style:{" "}
+                      {
+                        playerOverview.performance_profile.playing_style
+                          ?.secondary_style
+                      }
+                    </p>
+
+                    {/* Category Scores */}
+                    <h5>Category Scores</h5>
+                    <div className="category-scores">
+                      <div className="score-item">
+                        <span>
+                          Attacking:{" "}
+                          {
+                            playerOverview.performance_profile.category_scores
+                              .attacking.score
+                          }
+                          /100
+                        </span>
+                        <span>
+                          Contribution:{" "}
+                          {playerOverview.performance_profile.category_scores.attacking.contribution.toFixed(
+                            2
+                          )}
+                          %
+                        </span>
+                      </div>
+                      <div className="score-item">
+                        <span>
+                          Possession:{" "}
+                          {
+                            playerOverview.performance_profile.category_scores
+                              .possession.score
+                          }
+                          /100
+                        </span>
+                        <span>
+                          Contribution:{" "}
+                          {playerOverview.performance_profile.category_scores.possession.contribution.toFixed(
+                            2
+                          )}
+                          %
+                        </span>
+                      </div>
+                      <div className="score-item">
+                        <span>
+                          Defensive:{" "}
+                          {
+                            playerOverview.performance_profile.category_scores
+                              .defensive.score
+                          }
+                          /100
+                        </span>
+                        <span>
+                          Contribution:{" "}
+                          {playerOverview.performance_profile.category_scores.defensive.contribution.toFixed(
+                            2
+                          )}
+                          %
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Key Strengths */}
+                {playerOverview.performance_profile.key_strengths?.length >
+                  0 && (
+                  <div className="analysis-category">
+                    <h4>Key Strengths</h4>
+                    <div className="strength-list">
+                      {playerOverview.performance_profile.key_strengths.map(
+                        (strength, index) => (
+                          <div key={index} className="strength-item">
+                            <span className="strength-stat">
+                              {strength.stat}
+                            </span>
+                            <span className="strength-value">
+                              Value: {strength.value} (Top {strength.percentile}
+                              %)
+                            </span>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Areas for Improvement */}
+                {playerOverview.performance_profile.areas_for_improvement
+                  ?.length > 0 && (
+                  <div className="analysis-category">
+                    <h4>Areas for Development</h4>
+                    <div className="improvement-list">
+                      {playerOverview.performance_profile.areas_for_improvement.map(
+                        (area, index) => (
+                          <div key={index} className="improvement-item">
+                            <span className="improvement-stat">
+                              {area.stat}
+                            </span>
+                            <span className="improvement-value">
+                              Current: {area.value} (Bottom{" "}
+                              {100 - area.percentile}%)
+                            </span>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Development Analysis */}
+            {playerOverview?.development_analysis && (
+              <div className="analysis-category">
+                <h4>Development Analysis</h4>
+                <p>
+                  Development Phase:{" "}
+                  {playerOverview.development_analysis.development_timeframe}
+                </p>
+
+                {/* Training Recommendations */}
+                {playerOverview.development_analysis.training_recommendations
+                  ?.length > 0 && (
+                  <div className="training-recommendations">
+                    <h5>Training Recommendations</h5>
+                    <div className="training-list">
+                      {playerOverview.development_analysis.training_recommendations.map(
+                        (rec, index) => (
+                          <div
+                            key={index}
+                            className="training-item"
+                            data-priority={rec.priority}
+                          >
+                            <span className="training-focus">
+                              {rec.focus_area}
+                            </span>
+                            <div className="training-details">
+                              <p>
+                                Priority:{" "}
+                                <span className={`priority-${rec.priority}`}>
+                                  {rec.priority}
+                                </span>
+                              </p>
+                              <p>Current Level: {rec.current_level}%</p>
+                              <p>Target Level: {rec.target_level}%</p>
+                              <p>Timeframe: {rec.timeframe}</p>
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Overall Rating */}
+            {playerOverview?.overall_rating && (
+              <div className="analysis-category">
+                <h4>Overall Rating</h4>
+                <div className="rating-display">
+                  <span className="rating-number">
+                    {playerOverview.overall_rating}
+                  </span>
+                  <span className="rating-max">/100</span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

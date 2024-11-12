@@ -29,7 +29,7 @@ body {
   flex-direction: column;
   align-items: center;
   background-color: var(--background-darker);
-  padding-top: 15vh;
+  padding-top: 3vh;
   gap: 3rem;
 }
 
