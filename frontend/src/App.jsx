@@ -4,7 +4,7 @@ import PlayerSearch from "./components/PlayerSearch";
 function App() {
   return (
     <div className="app">
-      <h1 className="main-title">Football Scout</h1>
+      <h1 className="main-title">Football Player Stats</h1>
       <div className="search-container">
         <div className="search-box">
           <p className="search-description">

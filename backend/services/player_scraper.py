@@ -14,19 +14,15 @@ class PlayerScraper:
         try:
             if not birth_date_text:
                 return None
-                
-            # First try to find age directly
+
             age_match = re.search(r'\(Age: (\d+)', birth_date_text)
             if age_match:
                 return int(age_match.group(1))
-                
-            # If no direct age, calculate from birth date
-            # Example format: "July 13, 2007"
+
             birth_date = datetime.strptime(birth_date_text.strip(), '%B %d, %Y')
             today = datetime.today()
             age = today.year - birth_date.year
-            
-            # Adjust age if birthday hasn't occurred this year
+
             if today.month < birth_date.month or (today.month == birth_date.month and today.day < birth_date.day):
                 age -= 1
                 
@@ -60,11 +56,9 @@ class PlayerScraper:
                     'error': 'Could not find player info'
                 }
 
-            # Get birth date text
             birth_date_element = meta_div.find('span', id='necro-birth')
             birth_date_text = birth_date_element.text.strip() if birth_date_element else None
-            
-            # Extract basic info
+
             player_info = {
                 'general_info': {
                     'photo_url': meta_div.find('img')['src'] if meta_div.find('img') else None,
@@ -79,18 +73,15 @@ class PlayerScraper:
                 }
             }
 
-            # Get current season stats
             stats_div = soup.find('div', class_='stats_pullout')
             if stats_div:
-                # Get competition names, filtering out the season header
                 competition_elements = stats_div.select('div > div > p strong')
                 competitions = [comp.text.strip() for comp in competition_elements 
                               if not comp.text.strip().startswith('20')]
                 print(f"\nFound competitions: {competitions}")
                 
                 current_season_stats = {}
-                
-                # Get all stat values
+   
                 matches = [p.text.strip() for p in stats_div.select('div.p1 div:nth-child(1) p')]
                 minutes = [p.text.strip() for p in stats_div.select('div.p1 div:nth-child(2) p')]
                 goals = [p.text.strip() for p in stats_div.select('div.p1 div:nth-child(3) p')]
@@ -101,7 +92,6 @@ class PlayerScraper:
                 sca = [p.text.strip() for p in stats_div.select('div.p3 div:nth-child(1) p')]
                 gca = [p.text.strip() for p in stats_div.select('div.p3 div:nth-child(2) p')]
                 
-                # For each competition
                 for i, competition in enumerate(competitions):
                     print(f"\nProcessing {competition} (index {i}):")
                     
@@ -136,24 +126,19 @@ class PlayerScraper:
                 
                 player_info['current_season_stats'] = current_season_stats
 
-            # Get scouting report - using a more flexible approach
             scouting_report = []
-            
-            # Find all divs that start with 'div_scout_summary_'
+
             scouting_divs = soup.find_all('div', id=lambda x: x and x.startswith('div_scout_summary_'))
             print(f"Found {len(scouting_divs)} scouting report divs")
             
             if scouting_divs:
-                # Use the first scouting div found (usually there's only one per player)
                 scouting_div = scouting_divs[0]
                 print(f"Using scouting div with ID: {scouting_div.get('id', 'unknown')}")
                 
-                # Get all stat rows
                 stat_rows = scouting_div.select('tbody tr')
                 print(f"Found {len(stat_rows)} stat rows")
                 
                 for row in stat_rows:
-                    # Skip spacer rows
                     if 'spacer' in row.get('class', []):
                         continue
                         
@@ -176,7 +161,6 @@ class PlayerScraper:
             
             player_info['scouting_report'] = scouting_report
 
-            # Generate player analysis
             analysis = self.analyzer.analyze_player(player_info)
             if 'error' not in analysis:
                 player_info.update(analysis)

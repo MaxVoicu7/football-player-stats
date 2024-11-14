@@ -10,8 +10,7 @@ def search_player():
         name = request.args.get('name')
         if not name:
             return jsonify({"success": False, "error": "No name provided"}), 400
-            
-        # Remove asyncio.run since search_player is synchronous
+   
         result = player_scraper.search_player(name)
         return jsonify(result)
         

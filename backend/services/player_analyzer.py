@@ -12,7 +12,6 @@ class StatCategory:
 
 class PlayerAnalyzer:
     def __init__(self):
-        # Define stat categories with weights
         self.categories = {
             "attacking": StatCategory(
                 name="Attacking",
@@ -51,7 +50,6 @@ class PlayerAnalyzer:
             )
         }
 
-        # Updated position weights
         self.position_weights = {
             "FW": {"attacking": 0.5, "possession": 0.35, "defensive": 0.15},
             "MF": {"attacking": 0.35, "possession": 0.45, "defensive": 0.20},
@@ -60,28 +58,17 @@ class PlayerAnalyzer:
         }
 
     def analyze_player(self, player_data: Dict) -> Dict:
-        """Generate complete player analysis"""
         try:
             position = player_data['general_info']['position']
             age = player_data['general_info']['age']
             scouting_report = player_data['scouting_report']
 
-            # Get position base (FW, MF, DF, GK)
             position_base = self._get_position_base(position)
-
-            # Calculate category scores
             category_scores = self._calculate_category_scores(scouting_report, position_base)
-
-            # Identify strengths and weaknesses with context
             strengths, weaknesses = self._identify_strengths_weaknesses(scouting_report, position_base)
-
-            # Calculate detailed overall rating
             overall_rating = self._calculate_overall_rating(category_scores, position_base)
-
-            # Analyze playing style in detail
             playing_style = self._analyze_playing_style(scouting_report, position, category_scores)
 
-            # Generate development analysis
             development_analysis = self._analyze_development_needs(
                 age, 
                 weaknesses, 
@@ -102,8 +89,8 @@ class PlayerAnalyzer:
                     ),
                     "performance_profile": {
                         "category_scores": category_scores,
-                        "key_strengths": strengths[:3],  # Top 3 strengths
-                        "areas_for_improvement": weaknesses[:3],  # Top 3 weaknesses
+                        "key_strengths": strengths[:3],  
+                        "areas_for_improvement": weaknesses[:3], 
                         "playing_style": playing_style
                     },
                     "development_analysis": development_analysis,
@@ -121,7 +108,6 @@ class PlayerAnalyzer:
             return {"error": "Could not analyze player"}
 
     def _get_position_base(self, position: str) -> str:
-        """Extract base position from detailed position string"""
         position = position.upper()
         if any(pos in position for pos in ['FW', 'ST', 'CF', 'LW', 'RW']):
             return 'FW'
@@ -131,13 +117,11 @@ class PlayerAnalyzer:
             return 'DF'
         elif 'GK' in position:
             return 'GK'
-        return 'MF'  # Default to MF if unclear
+        return 'MF' 
 
     def _calculate_category_scores(self, scouting_report: List, position: str) -> Dict:
-        """Calculate detailed scores for each category with adjusted weights"""
         category_scores = {}
-        
-        # Define key stats that should have higher weight
+
         key_stats = {
             "Pass Completion %": 1.3,
             "Progressive Passes": 1.3,
@@ -164,10 +148,8 @@ class PlayerAnalyzer:
                     relevant_stats.append(stat)
             
             if relevant_stats:
-                # Calculate weighted average
                 score = weighted_sum / total_weight if total_weight > 0 else 0
-                
-                # Position-specific weight
+
                 weight = self.position_weights[position][category]
                 
                 category_scores[category] = {
@@ -179,15 +161,12 @@ class PlayerAnalyzer:
         return category_scores
 
     def _identify_strengths_weaknesses(self, scouting_report: List, position: str) -> tuple:
-        """Identify strengths and weaknesses with position context"""
         position_weights = self.position_weights[position]
         
         rated_stats = []
         for stat in scouting_report:
-            # Determine which category this stat belongs to
             for category, config in self.categories.items():
                 if stat['stat'] in config.stats:
-                    # Apply position-specific weight to the stat's importance
                     weight = position_weights[category]
                     rated_stats.append({
                         "stat": stat['stat'],
@@ -197,8 +176,7 @@ class PlayerAnalyzer:
                         "category": category
                     })
                     break
-        
-        # Sort by weighted score
+  
         rated_stats.sort(key=lambda x: x['weighted_score'], reverse=True)
         
         strengths = [stat for stat in rated_stats if stat['percentile'] >= 75]
@@ -207,8 +185,6 @@ class PlayerAnalyzer:
         return strengths, weaknesses
 
     def _analyze_playing_style(self, scouting_report: List, position: str, category_scores: Dict) -> Dict:
-        """Detailed analysis of playing style"""
-        # Calculate style characteristics
         characteristics = {
             "possession_play": self._calculate_style_characteristic(
                 scouting_report,
@@ -224,7 +200,6 @@ class PlayerAnalyzer:
             )
         }
 
-        # Determine primary and secondary styles
         styles = sorted(characteristics.items(), key=lambda x: x[1], reverse=True)
         
         return {
@@ -238,7 +213,6 @@ class PlayerAnalyzer:
         }
 
     def _calculate_style_characteristic(self, scouting_report: List, relevant_stats: List) -> float:
-        """Calculate score for a specific style characteristic"""
         relevant_values = [
             stat['percentile'] for stat in scouting_report 
             if stat['stat'] in relevant_stats
@@ -247,10 +221,8 @@ class PlayerAnalyzer:
 
     def _analyze_development_needs(self, age: int, weaknesses: List, 
                                  category_scores: Dict, position: str) -> Dict:
-        """Detailed development needs analysis"""
         development_timeframe = self._estimate_development_timeframe(age)
-        
-        # Prioritize development areas based on position and age
+
         priority_areas = {
             "critical": [],
             "important": [],
@@ -276,7 +248,6 @@ class PlayerAnalyzer:
         }
 
     def _estimate_development_timeframe(self, age: int) -> str:
-        """Estimate development timeframe based on age"""
         if age <= 19:
             return "Long-term (3-5 years for full potential)"
         elif age <= 23:
@@ -288,7 +259,6 @@ class PlayerAnalyzer:
 
     def _generate_training_recommendations(self, priority_areas: Dict, 
                                         age: int, position: str) -> List[Dict]:
-        """Generate specific training recommendations"""
         recommendations = []
         
         for priority, weaknesses in priority_areas.items():
@@ -306,7 +276,6 @@ class PlayerAnalyzer:
     def _generate_detailed_summary(self, name: str, position: str, age: int,
                                  rating: int, category_scores: Dict, 
                                  playing_style: Dict) -> str:
-        """Generate detailed natural language summary"""
         age_description = (
             "promising young" if age <= 20
             else "developing" if age <= 23
@@ -325,8 +294,6 @@ class PlayerAnalyzer:
 
     def _estimate_potential(self, age: int, current_rating: int, 
                           category_scores: Dict) -> int:
-        """Estimate potential rating with more sophisticated logic"""
-        # Base potential increase based on age
         if age <= 19:
             potential_increase = 15
         elif age <= 21:
@@ -340,66 +307,51 @@ class PlayerAnalyzer:
         else:
             potential_increase = 0
 
-        # Adjust based on current performance level
         if current_rating >= 85:
-            potential_increase *= 0.5  # Harder to improve when already excellent
+            potential_increase *= 0.5 
         elif current_rating <= 65:
-            potential_increase *= 1.2  # More room for improvement
+            potential_increase *= 1.2
 
-        # Consider category scores
         highest_category_score = max(
             score['score'] for score in category_scores.values()
         )
         if highest_category_score >= 85:
-            potential_increase += 2  # Bonus for exceptional ability in any area
+            potential_increase += 2 
 
         return min(99, round(current_rating + potential_increase))
 
     def _calculate_overall_rating(self, category_scores: Dict, position: str) -> int:
-        """Calculate overall rating with improved weighting and passing bonus"""
         try:
             total_weighted_score = 0
             total_weight = 0
 
-            # Get position-specific weights
             position_weights = self.position_weights[position]
 
-            # Calculate weighted score for each category
             for category, scores in category_scores.items():
                 category_score = scores['score']
-                # Combine base category weight with position-specific weight
                 weight = scores['weight'] * position_weights[category]
-                
                 total_weighted_score += category_score * weight
                 total_weight += weight
 
-            # Calculate base rating
             base_rating = total_weighted_score / total_weight if total_weight > 0 else 70
 
-            # Add passing bonus based on key passing stats
             passing_bonus = self._calculate_passing_bonus(category_scores)
-            
-            # Find exceptional stats (85+ percentile)
+ 
             exceptional_categories = sum(
                 1 for scores in category_scores.values()
-                if scores['score'] >= 85  # Lowered threshold from 90
+                if scores['score'] >= 85 
             )
 
-            # Calculate final rating with bonuses
-            rating = base_rating + passing_bonus + (exceptional_categories * 2) + 5  # Added flat +5 bonus
+            rating = base_rating + passing_bonus + (exceptional_categories * 2) + 3
 
-            # Ensure rating stays within bounds
-            return min(99, max(50, round(rating)))  # Increased minimum rating to 50
-
+            return min(99, max(50, round(rating)))
         except Exception as e:
             logger.error(f"Error calculating overall rating: {str(e)}")
-            return 75  # Increased default rating
+            return 75
 
     def _calculate_passing_bonus(self, category_scores: Dict) -> float:
-        """Calculate bonus points for good passing abilities"""
         possession_score = category_scores.get('possession', {}).get('score', 0)
         
-        # Progressive passing bonus
         if possession_score >= 85:
             return 8
         elif possession_score >= 75:
@@ -409,9 +361,6 @@ class PlayerAnalyzer:
         return 0
 
     def _identify_position_specific_traits(self, scouting_report: List, position: str) -> Dict:
-        """Identify position-specific traits and their levels"""
-        
-        # Define traits to look for based on position
         position_traits = {
             "FW": {
                 "finishing": ["Non-Penalty Goals", "npxG: Non-Penalty xG"],
@@ -435,13 +384,11 @@ class PlayerAnalyzer:
             }
         }
 
-        # Get base position
         base_position = self._get_position_base(position)
         relevant_traits = position_traits.get(base_position, position_traits["MF"])
         
         traits_analysis = {}
-        
-        # Analyze each trait
+
         for trait_name, relevant_stats in relevant_traits.items():
             trait_scores = []
             
@@ -463,7 +410,6 @@ class PlayerAnalyzer:
         }
 
     def _get_trait_level(self, score: float) -> str:
-        """Convert numerical score to descriptive level"""
         if score >= 90:
             return "Elite"
         elif score >= 80:
@@ -482,17 +428,14 @@ class PlayerAnalyzer:
             return "Developing"
 
     def _determine_specific_role(self, traits_analysis: Dict, position: str) -> str:
-        """Determine specific role based on traits and position"""
         base_position = self._get_position_base(position)
-        
-        # Get the strongest traits
+
         sorted_traits = sorted(
             traits_analysis.items(),
             key=lambda x: x[1]['score'],
             reverse=True
         )
-        
-        # Role definitions based on trait combinations
+  
         role_definitions = {
             "FW": {
                 "finishing": "Goal Poacher",
@@ -517,7 +460,6 @@ class PlayerAnalyzer:
         }
         
         if sorted_traits:
-            # Get the primary trait
             primary_trait = sorted_traits[0][0]
             return role_definitions.get(base_position, {}).get(primary_trait, "Complete Player")
         

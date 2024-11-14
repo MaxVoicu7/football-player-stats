@@ -6,7 +6,6 @@ import CurrentStats from "./CurrentStats";
 import NeonLoader from "./NeonLoader";
 
 const PlayerCard = ({ generalInfo }) => {
-  // Only truncate if really necessary (longer names)
   const truncateText = (text, maxLength = 25) => {
     return text.length > maxLength
       ? `${text.substring(0, maxLength)}...`
@@ -66,7 +65,6 @@ const StatItem = ({ stat, per90, percentile }) => {
   );
 };
 
-// Helper function to categorize stats
 const getStatCategory = (stat) => {
   const attackingStats = ["Goals", "Shots", "xG", "Assists"];
   const possessionStats = ["Passes", "Carries", "Take-Ons", "Touches"];
@@ -211,10 +209,8 @@ const PlayerProfile = ({
               </div>
             )}
 
-            {/* Performance Profile */}
             {playerOverview?.performance_profile && (
               <>
-                {/* Playing Style */}
                 <div className="analysis-category">
                   <h4>Playing Style</h4>
                   <div className="style-details">
@@ -232,8 +228,6 @@ const PlayerProfile = ({
                           ?.secondary_style
                       }
                     </p>
-
-                    {/* Category Scores */}
                     <h5>Category Scores</h5>
                     <div className="category-scores">
                       <div className="score-item">
@@ -291,7 +285,6 @@ const PlayerProfile = ({
                   </div>
                 </div>
 
-                {/* Key Strengths */}
                 {playerOverview.performance_profile.key_strengths?.length >
                   0 && (
                   <div className="analysis-category">
@@ -314,7 +307,6 @@ const PlayerProfile = ({
                   </div>
                 )}
 
-                {/* Areas for Improvement */}
                 {playerOverview.performance_profile.areas_for_improvement
                   ?.length > 0 && (
                   <div className="analysis-category">
@@ -339,7 +331,6 @@ const PlayerProfile = ({
               </>
             )}
 
-            {/* Development Analysis */}
             {playerOverview?.development_analysis && (
               <div className="analysis-category">
                 <h4>Development Analysis</h4>
@@ -348,7 +339,6 @@ const PlayerProfile = ({
                   {playerOverview.development_analysis.development_timeframe}
                 </p>
 
-                {/* Training Recommendations */}
                 {playerOverview.development_analysis.training_recommendations
                   ?.length > 0 && (
                   <div className="training-recommendations">
@@ -384,7 +374,6 @@ const PlayerProfile = ({
               </div>
             )}
 
-            {/* Overall Rating */}
             {playerOverview?.overall_rating && (
               <div className="analysis-category">
                 <h4>Overall Rating</h4>
