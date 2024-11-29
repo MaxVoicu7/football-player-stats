@@ -10,6 +10,9 @@ services:
     environment:
       - FLASK_ENV=development
       - FLASK_APP=app.py
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/football_stats
+    depends_on:
+      - db
 
   frontend:
     build: ./frontend
@@ -20,6 +23,20 @@ services:
       - /app/node_modules
     depends_on:
       - backend
+
+  db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=football_stats
+
+volumes:
+  postgres_data:
 
 networks:
   default:
